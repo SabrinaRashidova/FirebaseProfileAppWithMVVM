@@ -1,10 +1,14 @@
  FireDashboard-Kotlin
-A simple yet powerful Android app built with Firebase and Kotlin, demonstrating authentication, profile management, and Firebase Storage integration.
+An Android app built with Firebase and Kotlin, demonstrating authentication, profile management, and Firebase Storage integration.
  Features
 ✅ User Authentication — Sign up, log in, and log out using Firebase Authentication
+
 ✅ Profile Management — Update user information and upload profile photos
+
 ✅ Realtime Database Integration — Store and retrieve user data in Firebase Realtime Database
+
 ✅ Firebase Storage — Save and load profile images from Firebase Storage
+
 ✅ Modern UI — Clean layout with View Binding and Glide image loading
 
  Tech Stack
