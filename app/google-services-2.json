@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359323031279",
+    "project_id": "fir-mvvm-7cc2f",
+    "storage_bucket": "fir-mvvm-7cc2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359323031279:android:93e8a44d6d874d80ec6d1a",
+        "android_client_info": {
+          "package_name": "com.example.firebasemvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgP6x6qWus6P8rA9RqfBxnHnBpAfx05I0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
