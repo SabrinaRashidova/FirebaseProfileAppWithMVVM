@@ -55,6 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
 //    implementation("androidx.credentials:credentials:1.3.0")
 //    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
