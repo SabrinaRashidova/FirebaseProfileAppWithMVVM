@@ -50,6 +50,39 @@
         android:text="Upload photo"
         android:layout_marginTop="24dp"/>
 
+    <EditText
+        android:id="@+id/et_new_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter new name.."
+        android:visibility="gone"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/et_new_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter new name.."
+        android:visibility="gone"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update account"
+        android:layout_marginTop="24dp"/>
+
+    <EditText
+        android:id="@+id/et_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="Enter password"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +104,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Delete account"
+            android:text="Delete"
             android:layout_marginTop="18sp"/>
     </LinearLayout>
 </LinearLayout>
