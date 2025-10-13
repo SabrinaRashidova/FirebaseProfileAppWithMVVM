@@ -1,6 +1,7 @@
 package com.example.firebasemvvm.data.repository
 
 import android.net.Uri
+import android.util.Log
 import com.example.firebasemvvm.data.model.User
 import com.example.firebasemvvm.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
@@ -16,13 +17,16 @@ class UserRepository(
 ) {
     suspend fun registerUser(name: String, age: String, email: String, password: String): Resource<Unit>{
         return try {
-            auth.createUserWithEmailAndPassword(email,password).await()
-            val userId = auth.currentUser?.uid?: return Resource.Error("User not found")
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            val userId = result.user?.uid ?: return Resource.Error("User not found")
             val user = User(name,age,email,"")
+            Log.d("Firebase", "Registering user with ID: $userId")
 
-            firestore.collection("users").document(userId).set(userId).await()
+            firestore.collection("users").document(userId).set(user).await()
+            Log.d("Firebase", "User saved in Firestore successfully!")
             Resource.Success(Unit)
         }catch (e: Exception){
+            Log.e("Firebase", "Registration failed: ${e.message}", e)
             Resource.Error(e.message?: "Registration failed")
         }
     }
@@ -82,6 +86,7 @@ class UserRepository(
             user.reauthenticate(credential).await()
             firestore.collection("users").document(user.uid).delete().await()
             user.delete().await()
+            auth.signOut()
 
             Resource.Success(Unit)
         }catch (e: Exception){

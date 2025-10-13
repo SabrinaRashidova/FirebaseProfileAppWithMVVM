@@ -15,6 +15,9 @@ class DashboardViewModel(private val repository: UserRepository) : ViewModel() {
     private val _user = MutableStateFlow<Resource<User>>(Resource.Loading())
     val user: StateFlow<Resource<User>> = _user
 
+    private val _deleteState = MutableStateFlow<Resource<Unit>?>(null)
+    val deleteState: StateFlow<Resource<Unit>?> = _deleteState
+
     fun loadUser(){
         viewModelScope.launch {
             _user.value = repository.getUserData()
@@ -37,7 +40,13 @@ class DashboardViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun deleteAccount(password: String){
         viewModelScope.launch {
-            repository.deleteAccount(password)
+            if (password.isBlank()) {
+                _deleteState.value = Resource.Error("Please enter your password")
+                return@launch
+            }
+            _deleteState.value = Resource.Loading()
+            val res = repository.deleteAccount(password)
+            _deleteState.value = res
         }
     }
 

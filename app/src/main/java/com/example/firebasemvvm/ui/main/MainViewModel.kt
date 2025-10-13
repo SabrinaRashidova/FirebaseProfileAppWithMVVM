@@ -12,20 +12,22 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
-    private val _authState = MutableStateFlow<Resource<Unit>>(Resource.Success(Unit))
+    private val _authState = MutableStateFlow<Resource<Unit>>(Resource.Loading())
     val authState: StateFlow<Resource<Unit>> = _authState
 
     fun register(name: String, age: String, email: String, password: String){
         viewModelScope.launch {
             _authState.value = Resource.Loading()
-            _authState.value = repository.registerUser(name,age,email,password)
+            val result = repository.registerUser(name, age, email, password)
+            _authState.value = result
         }
     }
 
     fun login(email: String, password: String){
         viewModelScope.launch {
             _authState.value = Resource.Loading()
-            _authState.value = repository.loginUser(email,password)
+            val result = repository.loginUser(email,password)
+            _authState.value = result
         }
     }
 }

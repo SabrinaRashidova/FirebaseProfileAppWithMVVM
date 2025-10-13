@@ -11,7 +11,9 @@ import com.example.firebasemvvm.databinding.ActivityMainBinding
 import com.example.firebasemvvm.ui.dashboard.DashboardActivity
 import com.example.firebasemvvm.utils.Resource
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,19 +22,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            navigate()
+            return
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        lifecycleScope.launchWhenStarted {
-//            viewmodel.authState.collectLatest { state ->
-//                when (state){
-//                    is Resource.Loading -> Snackbar.make(binding.root,"Please wait....", Snackbar.LENGTH_SHORT).show()
-//                    is Resource.Success -> navigate()
-//                    is Resource.Error -> Snackbar.make(binding.root,state.message.toString(),
-//                        Snackbar.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
 
         binding.btnRegister.setOnClickListener {
             with(binding){
@@ -40,13 +38,15 @@ class MainActivity : AppCompatActivity() {
                 etAge.visibility = View.VISIBLE
                 etEmail.visibility = View.VISIBLE
                 etPassword.visibility = View.VISIBLE
-                btnLogin.visibility = View.INVISIBLE
+                btnLogin.text = "Back to Login"
+                btnRegister.text = "Register"
             }
 
             val name = binding.etName.text.toString()
             val age = binding.etAge.text.toString()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+
 
             if (name.isBlank() || age.isBlank() || email.isBlank() || password.isBlank()){
                 Snackbar.make(binding.root,"Please fill all the fields", Snackbar.LENGTH_SHORT).show()
@@ -62,26 +62,61 @@ class MainActivity : AppCompatActivity() {
             }
 
             viewmodel.register(name,age,email,password)
-            Snackbar.make(binding.root,"Registered Successfully", Snackbar.LENGTH_SHORT).show()
-            navigate()
+
+            lifecycleScope.launch {
+                viewmodel.authState.collectLatest { state->
+                    when(state){
+                        is Resource.Loading -> {
+                            Snackbar.make(binding.root, "Registering...", Snackbar.LENGTH_SHORT).show()
+                        }
+                        is Resource.Success -> {
+                            Snackbar.make(binding.root, "Registered Successfully", Snackbar.LENGTH_SHORT).show()
+                            navigate()
+                        }
+                        is Resource.Error -> {
+                            Snackbar.make(binding.root, state.message ?: "Registration failed", Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
 
         binding.btnLogin.setOnClickListener {
 
-            binding.etEmail.visibility = View.VISIBLE
-            binding.etPassword.visibility = View.VISIBLE
-            binding.btnRegister.visibility = View.INVISIBLE
+            binding.etName.visibility = View.INVISIBLE
+            binding.etAge.visibility = View.INVISIBLE
+            binding.btnRegister.text = "Back to Register"
+            binding.btnLogin.text = "Login"
 
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
             if (email.isNotBlank() && password.isNotBlank()){
                 viewmodel.login(email, password)
-                Snackbar.make(binding.root,"Logged in Successfully", Snackbar.LENGTH_SHORT).show()
-                navigate()
+//                Snackbar.make(binding.root,"Logged in Successfully", Snackbar.LENGTH_SHORT).show()
+//                navigate()
             }else{
                 Snackbar.make(binding.root,"Please fill all the fields", Snackbar.LENGTH_SHORT).show()
             }
+
+            lifecycleScope.launch {
+                viewmodel.authState.collectLatest { state ->
+                    when(state){
+                        is Resource.Loading -> {
+                            Snackbar.make(binding.root, "Logging in...", Snackbar.LENGTH_SHORT).show()
+                        }
+                        is Resource.Success -> {
+                            Snackbar.make(binding.root, "Logged in Successfully", Snackbar.LENGTH_SHORT).show()
+                            navigate()
+                        }
+                        is Resource.Error -> {
+                            Snackbar.make(binding.root, state.message ?: "Login failed", Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
+
+        binding.ivBack.setOnClickListener { finish() }
 
     }
 
