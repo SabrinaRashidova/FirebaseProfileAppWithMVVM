@@ -20,15 +20,5 @@ UI	XML + View Binding
 Image Loading	Glide
 IDE	Android Studio
 
- Setup Instructions
- 
-Clone the repository
-git clone https://github.com/yourusername/FireDashboard-Kotlin.git
-Open in Android Studio
-Add your google-services.json file to the app/ directory
-Enable Firebase services in your Firebase console:
-Authentication (Email/Password)
-Realtime Database
-Storage
-Run the app on your emulator or real device
+
 
