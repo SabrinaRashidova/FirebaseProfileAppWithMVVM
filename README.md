@@ -21,6 +21,7 @@ Image Loading	Glide
 IDE	Android Studio
 
  Setup Instructions
+ 
 Clone the repository
 git clone https://github.com/yourusername/FireDashboard-Kotlin.git
 Open in Android Studio
@@ -31,4 +32,3 @@ Realtime Database
 Storage
 Run the app on your emulator or real device
 
-linkdein: [linkdein](https://www.linkedin.com/in/sabrina-rashidova/)
